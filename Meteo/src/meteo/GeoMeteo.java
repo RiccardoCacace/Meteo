@@ -5,6 +5,7 @@
  */
 package meteo;
 
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -17,6 +18,16 @@ import java.net.URLConnection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.Scanner;
+import javax.swing.text.Document;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
+import org.w3c.dom.xpath.XPathExpression;
+import org.xml.sax.SAXException;
 
 /**
  *
@@ -34,6 +45,11 @@ public class GeoMeteo {
             GeoMeteo geo = new GeoMeteo();
             String indirizzo = geo.getUserInput();
             System.out.println(indirizzo);
+            Point p = geo.getPoint(indirizzo);
+            if (p!=null) {
+                System.out.println(p.getLat());
+                System.out.println(p.getLng());
+            }
             System.setProperty("proxySet", "true");
             System.setProperty("http.proxyHost", "192.168.0.1");
             System.setProperty("http.proxyPort", "8080");
@@ -106,5 +122,47 @@ public class GeoMeteo {
             return false;
         }
     }
+    
+    public Point getPoint(String address) {
+        
+        try {
+            address=address.replaceAll("\\s+","");
+            URL myUrl = new URL("http://maps.googleapis.com/maps/api/geocode/xml?address=" + address + "&sensor=false");
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            org.w3c.dom.Document doc = builder.parse(myUrl.openStream());
+            XPathFactory xPathfactory = XPathFactory.newInstance();
+            XPath xpath = xPathfactory.newXPath();
+            javax.xml.xpath.XPathExpression expr = xpath.compile("/GeocodeResponse/result/geometry/location/lat");
+            String swLat = expr.evaluate(doc, XPathConstants.STRING).toString();
+            System.out.println("swLat: " + swLat );
+            javax.xml.xpath.XPathExpression expr2 = xpath.compile("/GeocodeResponse/result/geometry/location/lng");
+            String swLng = expr2.evaluate(doc, XPathConstants.STRING).toString();
+            System.out.println("swLng: " + swLng );
+            Double lat = Double.parseDouble(swLat);
+            Double lng = Double.parseDouble(swLng);
+            Point p = new Point(lat, lng);
+            return p;
+        } catch (ParserConfigurationException ex) {
+            ex.printStackTrace();
+            Logger.getLogger(GeoMeteo.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            Logger.getLogger(GeoMeteo.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SAXException ex) {
+            ex.printStackTrace();
+            Logger.getLogger(GeoMeteo.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (XPathExpressionException ex) {
+            ex.printStackTrace();
+            Logger.getLogger(GeoMeteo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         
+        return null;
+}
+    
+    
+    
+ 
+    
     
 }
