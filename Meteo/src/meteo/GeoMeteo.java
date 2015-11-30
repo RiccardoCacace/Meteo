@@ -6,12 +6,9 @@
 package meteo;
 
 import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Authenticator;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.PasswordAuthentication;
 import java.net.URL;
@@ -19,11 +16,13 @@ import java.net.URLConnection;
 //import java.util.Base64;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.Scanner;
 
 /**
  *
  * @author pollini
  */
+
 public class GeoMeteo {
 
     /**
@@ -32,6 +31,9 @@ public class GeoMeteo {
     public static void main(String[] args) {
         
         try {
+            GeoMeteo geo = new GeoMeteo();
+            String indirizzo = geo.getUserInput();
+            System.out.println(indirizzo);
             System.setProperty("proxySet", "true");
             System.setProperty("http.proxyHost", "192.168.0.1");
             System.setProperty("http.proxyPort", "8080");
@@ -80,6 +82,29 @@ public class GeoMeteo {
 
     
 
+    }
+    
+    
+    
+    
+    
+    public GeoMeteo() {
+}
+    
+    public String getUserInput() {
+        Scanner keyboard = new Scanner(System.in);
+        System.out.println("Inserire un indirizzo:");
+        String input = keyboard.nextLine();
+        return input;
+    }
+    
+    public boolean isValid(String address) {
+        if(address!=null && address.length()!=0) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
     
 }
