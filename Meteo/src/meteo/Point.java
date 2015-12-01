@@ -10,8 +10,8 @@ package meteo;
  * @author hewlet packard
  */
 public class Point {
-    private double lat;
-    private double lng;
+    private final double lat;
+    private final double lng;
     
     public Point(double lat, double lng) {
         this.lat = lat;
