@@ -59,11 +59,16 @@ public class GeoMeteo {
             }
     }
 
-    
-    
+    /**
+     *
+     */
     public GeoMeteo() {
 }
     
+    /**
+     *
+     * @return
+     */
     public String getUserInput() {
         Scanner keyboard = new Scanner(System.in);
         System.out.println("Inserire un indirizzo:");
@@ -71,6 +76,11 @@ public class GeoMeteo {
         return input;
     }
     
+    /**
+     *
+     * @param address
+     * @return
+     */
     public boolean isValid(String address) {
         if(address!=null && address.length()!=0) {
             return true;
@@ -80,6 +90,11 @@ public class GeoMeteo {
         }
     }
     
+    /**
+     *
+     * @param address
+     * @return
+     */
     public Point getPoint(String address) {
         
         try {
@@ -104,6 +119,12 @@ public class GeoMeteo {
         return null;
 }
     
+    /**
+     *
+     * @param lat
+     * @param lng
+     * @return
+     */
     public WeatherForecast getMeteo (double lat, double lng) {
         try {
             URL myUrl = new URL("http://api.openweathermap.org/data/2.5/weather?lat=" + Double.toString(lat) + "&lon=" + Double.toString(lng) + "&mode=xml&appid=2de143494c0b295cca9337e1e96b00e0"); //crea URL per meteo

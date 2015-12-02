@@ -18,6 +18,16 @@ public class WeatherForecast {
     private final String precipitation;
     private final String weather;
     
+    /**
+     *
+     * @param temperature
+     * @param humidity
+     * @param pressure
+     * @param speedWind
+     * @param clouds
+     * @param precipitation
+     * @param weather
+     */
     public WeatherForecast(String temperature, String humidity, String pressure, String speedWind, String clouds, String precipitation, String weather) {
         this.temperature = temperature;
         this.humidity = humidity;
@@ -28,6 +38,10 @@ public class WeatherForecast {
         this.weather = weather;
     }
     
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
          String a = "Temperatura: " + temperature + "\n" +
